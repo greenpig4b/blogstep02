@@ -14,8 +14,14 @@ public class BoardNativeRepository {
     private final EntityManager em;
 
     @Transactional
-    public void updateById() {
+    public void updateById(Integer id ,String username,String content,String title) {
+        Query query = em.createNativeQuery("update board_tb set title =? ,username = ?,content=? where id=?");
+        query.setParameter(1,title);
+        query.setParameter(2,username);
+        query.setParameter(3,content);
+        query.setParameter(4,id);
 
+        query.executeUpdate();
     }
 
     public Board findById(Integer id) {
@@ -43,7 +49,10 @@ public class BoardNativeRepository {
     }
 
     @Transactional
-    public void deleteById() {
+    public void deleteById(Integer id) {
+        Query query = em.createNativeQuery("delete from board_tb where id = ?");
+        query.setParameter(1,id);
 
+        query.executeUpdate();
     }
 }
