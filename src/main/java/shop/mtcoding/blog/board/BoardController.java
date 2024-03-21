@@ -16,35 +16,33 @@ public class BoardController {
     private final BoardNativeRepository boardNativeRepository;
 
     @PostMapping("/board/{id}/update")
-    public String update(@PathVariable Integer id, String title, String content, String username){
-        boardNativeRepository.updateById(id, title, content, username);
-        return "redirect:/board/"+id;
+    public String update(){
+
+        return "redirect:/board";
     }
 
     @GetMapping("/board/{id}/update-form")
-    public String updateForm(@PathVariable Integer id, HttpServletRequest request){
-        Board board = boardNativeRepository.findById(id);
-        request.setAttribute("board", board);
+    public String updateForm(){
 
         return "board/update-form";
     }
 
     @PostMapping("/board/{id}/delete")
-    public String delete(@PathVariable Integer id){
-        boardNativeRepository.deleteById(id);
+    public String delete(){
+
         return "redirect:/";
     }
 
     @PostMapping("/board/save")
-    public String save(String title, String content, String username){
-        boardNativeRepository.save(title, content, username);
+    public String save(){
+
         return "redirect:/";
     }
 
     @GetMapping("/" )
     public String index(HttpServletRequest request) {
         List<Board> boardList = boardNativeRepository.findAll();
-        request.setAttribute("boardList", boardList);
+        request.setAttribute("boardList",boardList);
         return "index";
     }
 
@@ -54,9 +52,9 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}")
-    public String detail(@PathVariable Integer id, HttpServletRequest request) {
-        Board board = boardNativeRepository.findById(id);
-        request.setAttribute("board", board);
+    public String detail() {
+
         return "board/detail";
     }
+
 }
