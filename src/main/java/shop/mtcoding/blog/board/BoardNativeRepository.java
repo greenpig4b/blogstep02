@@ -31,8 +31,13 @@ public class BoardNativeRepository {
     }
 
     @Transactional
-    public void save() {
+    public void save(String title,String content, String userName) {
+        Query query = em.createNativeQuery("insert into board_tb(title, content, username, created_at) values (?,?,?,now())");
+        query.setParameter(1,title);
+        query.setParameter(2,content);
+        query.setParameter(3,userName);
 
+        query.executeUpdate();
     }
 
     @Transactional

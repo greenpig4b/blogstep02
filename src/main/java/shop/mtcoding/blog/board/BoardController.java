@@ -34,10 +34,12 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String save(){
+    public String save(String title, String content, String userName){
+        boardNativeRepository.save(title,content,userName);
 
         return "redirect:/";
     }
+
 
     @GetMapping("/" )
     public String index(HttpServletRequest request) {
