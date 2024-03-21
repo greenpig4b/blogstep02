@@ -18,9 +18,11 @@ public class BoardNativeRepository {
 
     }
 
-    public Board findById() {
-
-        return null;
+    public Board findById(Integer id) {
+        Query query = em.createNativeQuery("select  * from board_tb where id = ?",Board.class);
+        query.setParameter(1,id);
+        Board board  = (Board) query.getSingleResult();
+        return board;
     }
 
     public List<Board> findAll() {

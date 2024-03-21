@@ -22,7 +22,7 @@ public class BoardController {
     }
 
     @GetMapping("/board/{id}/update-form")
-    public String updateForm(){
+    public String updateForm(@PathVariable Integer id){
 
         return "board/update-form";
     }
@@ -40,7 +40,6 @@ public class BoardController {
         return "redirect:/";
     }
 
-
     @GetMapping("/" )
     public String index(HttpServletRequest request) {
         List<Board> boardList = boardNativeRepository.findAll();
@@ -48,14 +47,17 @@ public class BoardController {
         return "index";
     }
 
+
     @GetMapping("/board/save-form")
     public String saveForm() {
         return "board/save-form";
     }
 
-    @GetMapping("/board/{id}")
-    public String detail() {
 
+    @GetMapping("/board/{id}")
+    public String detail(@PathVariable Integer id, HttpServletRequest request) {
+        Board board = boardNativeRepository.findById(id);
+        request.setAttribute("board",board);
         return "board/detail";
     }
 
