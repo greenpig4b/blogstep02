@@ -14,6 +14,7 @@ import java.util.List;
 public class BoardController {
 
     private final BoardNativeRepository boardNativeRepository;
+    private final BoardPersistRepository boardPersistRepository;
 
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable Integer id,String username,String title, String content){
@@ -37,8 +38,8 @@ public class BoardController {
     }
 
     @PostMapping("/board/save")
-    public String save(String title, String content, String userName){
-        boardNativeRepository.save(title,content,userName);
+    public String save(Board board){
+        boardPersistRepository.save(board);
 
         return "redirect:/";
     }
@@ -49,7 +50,6 @@ public class BoardController {
         request.setAttribute("boardList",boardList);
         return "index";
     }
-
 
     @GetMapping("/board/save-form")
     public String saveForm() {

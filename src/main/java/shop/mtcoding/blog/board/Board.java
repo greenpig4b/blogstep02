@@ -2,10 +2,11 @@ package shop.mtcoding.blog.board;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
 
-
+@NoArgsConstructor
 @Data
 @Table(name = "board_tb")
 @Entity
@@ -18,4 +19,11 @@ public class Board {
     private String username;
     private Timestamp createdAt;
 
+    public Board(String title, String content, String username) {
+
+        this.title = title;
+        this.content = content;
+        this.username = username;
+
+    }
 }
