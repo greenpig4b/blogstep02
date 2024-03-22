@@ -34,4 +34,11 @@ public class BoardPersistRepository {
         return board;
     }
 
+    //보드삭제하기
+    @Transactional
+    public void deleteById(Integer id){
+        Query query = em.createQuery("delete from Board b where b.id = :id");
+        query.setParameter("id",id);
+        query.executeUpdate();
+    }
 }
