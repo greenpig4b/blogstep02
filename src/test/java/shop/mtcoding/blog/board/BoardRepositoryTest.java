@@ -26,7 +26,6 @@ public class BoardRepositoryTest {
         System.out.println(board);
     }
 
-
     @Test
     public void findAll_test() {
         // given
