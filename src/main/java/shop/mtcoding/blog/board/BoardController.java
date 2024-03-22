@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.board;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,16 +17,17 @@ public class BoardController {
     private final BoardNativeRepository boardNativeRepository;
     private final BoardPersistRepository boardPersistRepository;
 
+    @Transactional
     @PostMapping("/board/{id}/update")
-    public String update(@PathVariable Integer id,String username,String title, String content){
-        boardNativeRepository.updateById(id,username,content,title);
+    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO resqDTO){
 
+        boardPersistRepository.updateById(id,resqDTO);
         return "redirect:/board/"+id;
     }
 
     @GetMapping("/board/{id}/update-form")
     public String updateForm(@PathVariable Integer id, HttpServletRequest request){
-        Board board = boardNativeRepository.findById(id);
+        Board board = boardPersistRepository.findById(id);
         request.setAttribute("board",board);
         return "board/update-form";
     }

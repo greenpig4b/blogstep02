@@ -41,4 +41,14 @@ public class BoardPersistRepository {
         query.setParameter("id",id);
         query.executeUpdate();
     }
+
+    //보드수정하기
+    @Transactional
+    public void updateById(Integer id , BoardRequest.UpdateDTO reqDTO){
+        //보드가 있는지 확인
+        Board board =findById(id);
+        //매서드
+        board.update(reqDTO);
+        //더티채킹
+    }
 }
