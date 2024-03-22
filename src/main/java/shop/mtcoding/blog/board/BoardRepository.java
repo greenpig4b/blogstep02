@@ -2,6 +2,7 @@ package shop.mtcoding.blog.board;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
@@ -26,4 +27,11 @@ public class BoardRepository {
         return boardList;
     }
 
+    //게시글 쓰기
+    @Transactional
+    public Board save(Board board){
+        em.persist(board);
+
+        return board;
+    }
 }

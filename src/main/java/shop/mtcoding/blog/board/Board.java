@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.board;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -26,6 +27,7 @@ public class Board {
     @CreationTimestamp
     private Timestamp createdAt;
 
+    @Builder
     public Board(Integer id, String title, String content, User user, Timestamp createdAt) {
         this.id = id;
         this.title = title;

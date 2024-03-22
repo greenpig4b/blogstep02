@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import shop.mtcoding.blog.board.BoardRequest;
+
 @RequiredArgsConstructor
 @Controller
 public class UserController {
@@ -20,6 +22,7 @@ public class UserController {
 
         return "redirect:/";
     }
+
 
     @GetMapping("/join-form")
     public String joinForm() {
