@@ -14,16 +14,15 @@ import java.util.List;
 @Controller
 public class BoardController {
 
-    private final BoardNativeRepository boardNativeRepository;
     private final BoardPersistRepository boardPersistRepository;
-
-    @Transactional
-    @PostMapping("/board/{id}/update")
-    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO resqDTO){
-
-        boardPersistRepository.updateById(id,resqDTO);
-        return "redirect:/board/"+id;
-    }
+    private final BoardRepository boardRepository;
+//    @Transactional
+//    @PostMapping("/board/{id}/update")
+//    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO resqDTO){
+//
+//        boardPersistRepository.updateById(id,resqDTO);
+//        return "redirect:/board/"+id;
+//    }
 
     @GetMapping("/board/{id}/update-form")
     public String updateForm(@PathVariable Integer id, HttpServletRequest request){
@@ -61,7 +60,7 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable Integer id, HttpServletRequest request) {
-        Board board = boardPersistRepository.findById(id);
+        Board board = boardRepository.fintById(id);
         request.setAttribute("board",board);
         return "board/detail";
     }
