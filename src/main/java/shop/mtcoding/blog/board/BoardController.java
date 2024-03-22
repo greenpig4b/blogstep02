@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.board;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,42 +15,43 @@ import java.util.List;
 public class BoardController {
 
     private final BoardNativeRepository boardNativeRepository;
+    private final BoardPersistRepository boardPersistRepository;
 
+    @Transactional
     @PostMapping("/board/{id}/update")
-    public String update(@PathVariable Integer id,String username,String title, String content){
-        boardNativeRepository.updateById(id,username,content,title);
+    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO resqDTO){
 
+        boardPersistRepository.updateById(id,resqDTO);
         return "redirect:/board/"+id;
     }
 
     @GetMapping("/board/{id}/update-form")
     public String updateForm(@PathVariable Integer id, HttpServletRequest request){
-        Board board = boardNativeRepository.findById(id);
+        Board board = boardPersistRepository.findById(id);
         request.setAttribute("board",board);
         return "board/update-form";
     }
 
     @PostMapping("/board/{id}/delete")
     public String delete(@PathVariable Integer id){
-        boardNativeRepository.deleteById(id);
+        boardPersistRepository.deleteById(id);
 
         return "redirect:/";
     }
 
     @PostMapping("/board/save")
-    public String save(String title, String content, String userName){
-        boardNativeRepository.save(title,content,userName);
+    public String save(Board board){
+        boardPersistRepository.save(board);
 
         return "redirect:/";
     }
 
     @GetMapping("/" )
     public String index(HttpServletRequest request) {
-        List<Board> boardList = boardNativeRepository.findAll();
+        List<Board> boardList = boardPersistRepository.findAll();
         request.setAttribute("boardList",boardList);
         return "index";
     }
-
 
     @GetMapping("/board/save-form")
     public String saveForm() {
@@ -59,7 +61,7 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable Integer id, HttpServletRequest request) {
-        Board board = boardNativeRepository.findById(id);
+        Board board = boardPersistRepository.findById(id);
         request.setAttribute("board",board);
         return "board/detail";
     }
