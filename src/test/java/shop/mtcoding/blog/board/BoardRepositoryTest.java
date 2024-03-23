@@ -1,6 +1,7 @@
 package shop.mtcoding.blog.board;
 
 import jakarta.persistence.EntityManager;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -37,5 +38,18 @@ public class BoardRepositoryTest {
         });
 
         // then
+    }
+
+    @Test
+    public void delete_test(){
+        //given
+        Integer id = 1;
+        //when
+        boardRepository.delete(id);
+        em.flush();
+
+        //given
+        List<Board> boardList = boardRepository.findAll();
+        System.out.println(boardList.size());
     }
 }

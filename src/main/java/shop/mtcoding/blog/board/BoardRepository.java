@@ -34,4 +34,12 @@ public class BoardRepository {
 
         return board;
     }
+
+    //게시글 삭제
+    @Transactional
+    public void delete(Integer id){
+        Query query = em.createQuery("delete from Board b where b.id = :id");
+        query.setParameter("id",id);
+        query.executeUpdate();
+    }
 }
