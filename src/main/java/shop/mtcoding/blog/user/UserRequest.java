@@ -10,6 +10,12 @@ public class UserRequest {
         private String password;
     }
 
+    @Data
+    public static class UpdateDTO{
+        private String password;
+    }
+
+
 
     @Data
     public static class JoinDTO{

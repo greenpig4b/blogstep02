@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import static java.nio.file.Files.find;
+
 @RequiredArgsConstructor
 @Repository
 public class UserRepository {
@@ -29,4 +31,21 @@ public class UserRepository {
         em.persist(user);
         return user;
     }
+
+    //회원정보찾기
+    public User findById(Integer id){
+        User user = em.find(User.class,id);
+
+        return user;
+    }
+
+    //회원정보 수정
+    @Transactional
+    public User updateById(Integer id, UserRequest.UpdateDTO reqDTO){
+        User user = findById(id);
+        user.setPassword(reqDTO.getPassword());
+
+        return user;
+    }
+
 }
