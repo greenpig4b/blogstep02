@@ -19,13 +19,13 @@ public class BoardController {
     private final BoardPersistRepository boardPersistRepository;
     private final BoardRepository boardRepository;
     private final HttpSession session;
-//    @Transactional
-//    @PostMapping("/board/{id}/update")
-//    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO resqDTO){
-//
-//        boardPersistRepository.updateById(id,resqDTO);
-//        return "redirect:/board/"+id;
-//    }
+    @Transactional
+    @PostMapping("/board/{id}/update")
+    public String update(@PathVariable Integer id,BoardRequest.UpdateDTO reqDTO){
+
+        boardRepository.updateById(id,reqDTO);
+        return "redirect:/board/"+id;
+    }
 
     @GetMapping("/board/{id}/update-form")
     public String updateForm(@PathVariable Integer id, HttpServletRequest request){
@@ -56,8 +56,9 @@ public class BoardController {
         return "index";
     }
 
-    @GetMapping("/board/save-form")
-    public String saveForm() {
+    @GetMapping("/board/{id}/save-form")
+    public String saveForm(@PathVariable Integer id) {
+
         return "board/save-form";
     }
 

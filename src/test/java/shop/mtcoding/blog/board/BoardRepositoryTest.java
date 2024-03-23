@@ -52,4 +52,19 @@ public class BoardRepositoryTest {
         List<Board> boardList = boardRepository.findAll();
         System.out.println(boardList.size());
     }
+
+    @Test
+    public void update_test(){
+        //given
+        Integer id  = 1;
+        BoardRequest.UpdateDTO reqDTO = new BoardRequest.UpdateDTO();
+        reqDTO.setTitle("제목1ㄴㅇㄴㅇ");
+        reqDTO.setContent("제목1ㄴㅇㄴㅇ");
+
+        //when
+        Board board = boardRepository.updateById(id,reqDTO);
+        //then
+        System.out.println(board);
+    }
+
 }

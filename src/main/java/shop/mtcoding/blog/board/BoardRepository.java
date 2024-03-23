@@ -42,4 +42,14 @@ public class BoardRepository {
         query.setParameter("id",id);
         query.executeUpdate();
     }
+
+    //게시글 수정
+    @Transactional
+    public Board updateById(Integer id,BoardRequest.UpdateDTO reqDTO){
+        Board board = fintById(id);
+        board.setTitle(reqDTO.getTitle());
+        board.setContent(reqDTO.getContent());
+
+        return board;
+    }
 }
