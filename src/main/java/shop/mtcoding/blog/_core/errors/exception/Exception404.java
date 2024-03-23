@@ -1,4 +1,4 @@
-package shop.mtcoding.blog._core.exception;
+package shop.mtcoding.blog._core.errors.exception;
 
 public class Exception404 extends RuntimeException {
 

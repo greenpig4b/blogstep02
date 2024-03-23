@@ -3,7 +3,7 @@ package shop.mtcoding.blog._core;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import shop.mtcoding.blog._core.exception.*;
+import shop.mtcoding.blog._core.errors.exception.*;
 
 @ControllerAdvice
 public class MyExceptionHandler {
