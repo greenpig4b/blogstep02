@@ -17,7 +17,7 @@ import java.util.List;
 @Controller
 public class BoardController {
 
-    private final BoardPersistRepository boardPersistRepository;
+
     private final BoardRepository boardRepository;
     private final HttpSession session;
     @Transactional
@@ -34,8 +34,8 @@ public class BoardController {
 
     @GetMapping("/board/{id}/update-form")
     public String updateForm(@PathVariable Integer id, HttpServletRequest request){
-        Board board = boardPersistRepository.findById(id);
-        request.setAttribute("board",board);
+//        Board board = boardPersistRepository.findById(id);
+//        request.setAttribute("board",board);
         return "board/update-form";
     }
 
@@ -47,7 +47,7 @@ public class BoardController {
         if (user.getId() != board.getUser().getId()){
             throw new Exception403("삭제할 권한이 없습니다.");
         }
-        boardPersistRepository.deleteById(id);
+//        boardPersistRepository.deleteById(id);
 
         return "redirect:/";
     }
