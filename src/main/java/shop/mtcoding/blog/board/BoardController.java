@@ -17,7 +17,6 @@ import java.util.List;
 @Controller
 public class BoardController {
 
-
     private final BoardRepository boardRepository;
     private final HttpSession session;
     @Transactional
@@ -36,6 +35,7 @@ public class BoardController {
     public String updateForm(@PathVariable Integer id, HttpServletRequest request){
 //        Board board = boardPersistRepository.findById(id);
 //        request.setAttribute("board",board);
+
         return "board/update-form";
     }
 
@@ -64,11 +64,12 @@ public class BoardController {
     public String index(HttpServletRequest request) {
         List<Board> boardList = boardRepository.findAll();
         request.setAttribute("boardList",boardList);
+
         return "index";
     }
 
-    @GetMapping("/board/{id}/save-form")
-    public String saveForm(@PathVariable Integer id) {
+    @GetMapping("/board/save-form")
+    public String saveForm() {
 
         return "board/save-form";
     }

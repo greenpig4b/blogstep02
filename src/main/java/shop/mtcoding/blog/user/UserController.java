@@ -26,16 +26,12 @@ import java.util.zip.DataFormatException;
 public class UserController {
     private final UserRepository userRepository;
     private final HttpSession session;
+    private final UserService userService;
 
     @PostMapping("/login")
     public String login(UserRequest.LoginDTO reqDTO){
-
-        try {
-            User sessionUser = userRepository.findByUsernameAndPassword(reqDTO.getUsername(),reqDTO.getPassword());
-            session.setAttribute("sessionUser",sessionUser);
-        } catch (EmptyResultDataAccessException e) {
-            throw new Exception401("유저네임 혹은 비밀번호가 틀렸습니다");
-        }
+        User sessionUser = userService.login(reqDTO);
+        session.setAttribute("sessionUser",sessionUser);
 
         return "redirect:/";
     }
@@ -43,11 +39,8 @@ public class UserController {
     @PostMapping("/join")
     public String join(UserRequest.JoinDTO reqDTO){
 
-        try {
-            userRepository.save(reqDTO.toEntity());
-        } catch (DataIntegrityViolationException e) {
-            throw new Exception400("동일한 유저네임이 존재합니다");
-        }
+       userService.join(reqDTO);
+
         return "redirect:/";
     }
 
@@ -62,8 +55,11 @@ public class UserController {
         return "user/login-form";
     }
 
-    @GetMapping("/user/{id}/update-form")
-    public String updateForm(@PathVariable Integer id) {
+    @GetMapping("/user/update-form")
+    public String updateForm(HttpServletRequest request) {
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        User user = userService.findByUser(sessionUser.getId());
+        request.setAttribute("user",user);
 
         return "user/update-form";
     }
@@ -72,7 +68,6 @@ public class UserController {
     public String update(@PathVariable Integer id, UserRequest.UpdateDTO reqDTO){
 
         User user = (User) session.getAttribute("sessionUser");
-
 
         User newSessionUser = userRepository.updateById(user.getId(),reqDTO);
         session.setAttribute("sessionUser",newSessionUser);
