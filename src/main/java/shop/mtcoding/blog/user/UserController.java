@@ -64,14 +64,14 @@ public class UserController {
         return "user/update-form";
     }
 
-    @PostMapping("/user/{id}/update")
-    public String update(@PathVariable Integer id, UserRequest.UpdateDTO reqDTO){
+    @PostMapping("/user/update")
+    public String update(UserRequest.UpdateDTO reqDTO){
 
         User user = (User) session.getAttribute("sessionUser");
+        User newSessionUser = userService.update(user.getId(),reqDTO);
 
-        User newSessionUser = userRepository.updateById(user.getId(),reqDTO);
         session.setAttribute("sessionUser",newSessionUser);
-        return "redirect:/board/"+id;
+        return "redirect:/";
     }
 
     @GetMapping("/logout")
@@ -79,4 +79,5 @@ public class UserController {
         session.invalidate();
         return "redirect:/";
     }
+
 }
