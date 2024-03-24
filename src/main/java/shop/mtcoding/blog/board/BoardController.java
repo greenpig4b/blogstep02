@@ -19,35 +19,28 @@ public class BoardController {
 
     private final BoardRepository boardRepository;
     private final HttpSession session;
-    @Transactional
+    private final BoardService boardService;
+
+
     @PostMapping("/board/{id}/update")
     public String update(@PathVariable Integer id,BoardRequest.UpdateDTO reqDTO){
-        User user = (User) session.getAttribute("sesionUser");
-        Board board = boardRepository.fintById(id);
-        if (user.getId() != board.getUser().getId() ){
-            throw new Exception403("게시글의 권한이 없습니다");
-        }
-        boardRepository.updateById(id,reqDTO);
-        return "redirect:/board/"+id;
+        User sesionUser = (User) session.getAttribute("sessionUser");
+        boardService.update(id,sesionUser.getId(),reqDTO);
+
+        return "redirect:/";
     }
 
     @GetMapping("/board/{id}/update-form")
-    public String updateForm(@PathVariable Integer id, HttpServletRequest request){
-//        Board board = boardPersistRepository.findById(id);
-//        request.setAttribute("board",board);
-
+    public String updateForm(@PathVariable Integer id, HttpServletRequest request) {
+        Board board = boardService.findById(id);
+        request.setAttribute("board", board);
         return "board/update-form";
     }
 
     @PostMapping("/board/{id}/delete")
     public String delete(@PathVariable Integer id){
         User user = (User)session.getAttribute("sessionUser");
-        Board board = boardRepository.fintById(id);
-
-        if (user.getId() != board.getUser().getId()){
-            throw new Exception403("삭제할 권한이 없습니다.");
-        }
-//        boardPersistRepository.deleteById(id);
+        boardService.delete(id,user.getId());
 
         return "redirect:/";
     }
@@ -55,14 +48,14 @@ public class BoardController {
     @PostMapping("/board/save")
     public String save(BoardRequest.SaveDTO reqDTO){
         User sessionUser = (User) session.getAttribute("sessionUser");
-        boardRepository.save(reqDTO.toEntity(sessionUser));
+        boardService.write(reqDTO,sessionUser);
 
         return "redirect:/";
     }
 
     @GetMapping("/" )
     public String index(HttpServletRequest request) {
-        List<Board> boardList = boardRepository.findAll();
+        List<Board> boardList = boardService.findAll();
         request.setAttribute("boardList",boardList);
 
         return "index";
@@ -77,17 +70,14 @@ public class BoardController {
 
     @GetMapping("/board/{id}")
     public String detail(@PathVariable Integer id, HttpServletRequest request) {
-        Board board = boardRepository.fintById(id);
-        User user = (User) session.getAttribute("sessionUser");
-        boolean isOwner = false;
-        if (user != null){
-            if (user.getId() == board.getUser().getId()){
-                isOwner = true;
-            }
-        }
 
-        request.setAttribute("isOwner",isOwner);
+        User sessionUser = (User) session.getAttribute("sessionUser");
+        Board board = boardService.detail(id,sessionUser);
+
         request.setAttribute("board",board);
+
+
+
         return "board/detail";
     }
 

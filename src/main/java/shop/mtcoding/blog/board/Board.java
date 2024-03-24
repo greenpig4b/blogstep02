@@ -27,6 +27,9 @@ public class Board {
     @CreationTimestamp
     private Timestamp createdAt;
 
+    @Transient// 컬럼생성안됨
+    private boolean boardOwner;
+
     @Builder
     public Board(Integer id, String title, String content, User user, Timestamp createdAt) {
         this.id = id;
